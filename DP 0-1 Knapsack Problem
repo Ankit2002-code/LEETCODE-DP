@@ -1,0 +1,20 @@
+	int func(int ind , int w ,vector<int>&weight,vector<int>&value,vector<vector<int>>&dp){
+	    if(ind==0){
+	        if(weight[0]<=w)return value[0];
+	        return 0;
+	    }
+	    if(dp[ind][w]!=-1){
+	        return dp[ind][w];
+	    }
+	    int nottake = 0+func(ind-1,w,weight,value,dp);
+	    int take = INT_MIN;
+	    if(weight[ind]<=w){
+	        take=value[ind]+func(ind-1,w-weight[ind],weight,value,dp);
+	    }
+	    return dp[ind][w]=max(take,nottake);
+	}
+	int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+	{
+	    vector<vector<int>>dp(n,vector<int>(maxWeight+1,-1));
+	    return func(n-1,maxWeight,weight,value,dp);
+}
