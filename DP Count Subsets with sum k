@@ -1,0 +1,29 @@
+	int func(int ind, int k, vector<vector<int>>& dp, vector<int>& arr) {
+	    
+	    if (k == 0) {
+	        return 1;
+	    }
+	    if (ind == 0) {
+	        return (arr[ind] == k);
+	    }
+	    if (dp[ind][k] != -1) {
+	        return dp[ind][k];
+	    }
+	    int notpick = func(ind - 1, k, dp, arr);
+	    int pick = 0;
+	    if (k >= arr[ind]) {
+	        pick = func(ind - 1, k - arr[ind], dp, arr);
+	    }
+	    return dp[ind][k] = pick + notpick;
+	}
+	int findways(vector<int>& arr, int k) {
+	    int n = arr.size();
+	    vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+	    return func(n - 1, k, dp, arr);
+	}
+	int main() {
+	    vector<int> arr = {1, 3, 2};
+	    int k = 3;
+	    cout << "Number of subsets with sum " << k << " are: " << findways(arr, k) << endl;
+	    return 0;
+}
