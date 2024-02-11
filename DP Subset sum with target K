@@ -1,0 +1,32 @@
+	int f(int index, int target, vector<int>& arr, vector<vector<int>>& dp) {
+	    if (target == 0) {
+	        return true;
+	    }
+	    if (index == 0) {
+	        return arr[index] == target;
+	    }
+	    if (dp[index][target] != -1) {
+	        return dp[index][target];
+	    }
+	    bool notpick = f(index - 1, target, arr, dp);
+	    bool pick = false;
+	    if (target >= arr[index]) {
+	        pick = f(index - 1, target - arr[index], arr, dp);
+	    }
+	    return dp[index][target] = pick || notpick;
+	}
+	bool subset_sum(int n, int k, vector<int>& arr) {
+	    vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+	    return f(n - 1, k, arr, dp);
+	}
+	int main() {
+	    vector<int> arr = {3, 34, 4, 12, 5, 2};
+	    int k = 9;
+	    int n = arr.size();
+	    if (subset_sum(n, k, arr)) {
+	        cout << "Subset with sum " << k << " exists.\n";
+	    } else {
+	        cout << "No subset with sum " << k << " exists.\n";
+	    }
+	    return 0;
+}
