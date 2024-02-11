@@ -1,0 +1,32 @@
+	class Solution{
+	public:
+	    int f(int index, int target, vector<int>& arr, vector<vector<int>>& dp) {
+	        if (target == 0) {
+	            return true;
+	        }
+	        if (index == 0) {
+	            return arr[index] == target;
+	        }
+	        if (dp[index][target] != -1) {
+	            return dp[index][target];
+	        }
+	        bool notpick = f(index - 1, target, arr, dp);
+	        bool pick = false;
+	        if (target >= arr[index]) {
+	            pick = f(index - 1, target - arr[index], arr, dp);
+	        }
+	        return dp[index][target] = pick || notpick;
+	    }
+	    bool canPartition(vector<int>& arr) {
+	        int n  =arr.size();
+	        int k = 0;
+	        for(int i=0;i<n;i++){
+	            k+=arr[i];
+	        }
+	        if(k%2!=0){
+	            return false;
+	        }
+	        vector<vector<int>> dp(n, vector<int>(k/2 + 1, -1));
+	        return f(n - 1, k/2, arr, dp);
+	}
+};
