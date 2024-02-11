@@ -1,0 +1,22 @@
+	#include<bits/stdc++.h>
+	int func(int ind , int n ,vector<vector<int>>&dp,vector<int>&price){
+	    if(ind==0){
+	          return price[0]*n;
+	        }
+	    if(dp[ind][n]!=-1){
+	        return dp[ind][n];
+	    }
+	    int nottake = 0+func(ind-1,n,dp,price);
+	    int take = INT_MIN;
+	    int rod_length = ind+1;
+	    if(rod_length<=n){
+	        take = price[ind]+func(ind,n-rod_length,dp,price);
+	    }
+	    return dp[ind][n]=max(take,nottake);
+	    }
+	int cutRod(vector<int> &price, int n)
+	{
+	    // Write your code here.
+	    vector<vector<int>>dp(n,vector<int>(n+1,-1));
+	    return func(n-1,n ,dp,price);
+}
